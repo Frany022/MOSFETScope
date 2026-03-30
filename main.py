@@ -27,17 +27,22 @@ for type1 in range(len(DataName)):
 
 type_number = [y for y in type1.split("," + " ")]
 
+print(type_number)
+
 nums = [[0 for i in range(len(type_number))] for j in range(data_number)]
 print("empty 2d array:", nums)
 
-#data_number kettő lesz ebben az esteben és len(type_number) 4
+print(data[1])
+print(data[2])
+for i in range(data_number + 1):
+    if i == 0:
+        continue
+    print(i)
+    value = data[i].replace(DataValue + Removable + " ", "")
 
+    split_values = value.split(", ")
 
+    nums[i - 1] = [float(x) for x in split_values]
 
 print(nums)
-
-
-
-
-
-
+print(type1)
