@@ -1,1 +1,2 @@
-# CSV-reader-and-plotter
+# CSV-reader-and-plotter  
+CS file reader and plotter using matplotlib and a GUI.
