@@ -15,19 +15,37 @@ def output_char(split_types):
         y_index = split_types.index("IDS")
     else:
         print("output char not available because no IDS")
+        return None
+    
     if "VDS" in split_types:
         x_index = split_types.index("VDS")
     else:
         print("output char not available because no VDS")
+        return None
+    
     if "Rdson" in split_types:
         rdson = split_types.index("Rdson")
     elif "Rdson\n" in split_types:
         rdson = split_types.index("Rdson\n")
+    else:
+        rdson = None
+    
     return y_index, x_index, rdson
 
 def IGSS(split_types):
-    y_index = split_types.index()
-    x_index = split_types.index()
+    if "IG" in split_types:
+        y_index = split_types.index("IG")
+    elif "IGabs" in split_types:
+        y_index = split_types.index("IGabs")
+    else:
+        print("no IG, not able to plot")
+        return None
+
+    if "VGS" in split_types: 
+        x_index = split_types.index("VGS")
+    else: 
+        x_index = None
+    
     return y_index, x_index
 
 def quadrant(split_types):
@@ -55,25 +73,20 @@ for type1 in range(len(DataName)):
 
 type_number = [y for y in type1.split("," + " ")]
 
-print(type_number)
 
 nums = [[0 for i in range(len(type_number))] for j in range(data_number)]
-print("empty 2d array:", nums)
 
 #data_number kettő lesz ebben az esteben és len(type_number) 4
 
 for i in range(data_number + 1):
     if i == 0:
         continue
-    print(i)
     value = data[i].replace(DataValue + Removable + " ", "")
 
     split_values = value.split(", ")
 
     nums[i - 1] = [float(x) for x in split_values]
 
-print(nums)
-print(type1)
 
 split_types = type1.split(", ")
 
@@ -81,9 +94,9 @@ split_types = type1.split(", ")
 
 y_index, x_index, Rdson = output_char(split_types)
 
-print("y index: ", y_index)
-print("x index: ", x_index)
-print("rdson: ", Rdson)
+for i in range(data_number):
+    print("IDS: ", nums[i][y_index])
+    print("VDS: ",nums[i][x_index])
 
 
 
