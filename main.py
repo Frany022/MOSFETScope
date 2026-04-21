@@ -37,7 +37,7 @@ def output_char(split_types, nums, data_number):
     IDS = []
     VDS = []
     RDSon = []
-    RDSon_calc = []
+    
     for i in range(data_number):
         IDS.append(nums[i][y_index])
         VDS.append(nums[i][x_index])
@@ -45,10 +45,6 @@ def output_char(split_types, nums, data_number):
 
     for i in range(data_number):
             RDSon[i] = RDSon[i] * 1000
-            if VDS[i] > 0 or IDS[i] > 0:
-                RDSon_calc.append(((VDS[i]/IDS[i])*1000))
-            else:
-                continue
 
     #print("rdson: ", RDSon)
     #print("VDS: ", x_axis)
@@ -60,7 +56,7 @@ def output_char(split_types, nums, data_number):
     @cursor.connect("add")
     def on_add(sel):
         i = int(round(sel.index))
-        sel.annotation.set_text(f"RDSon={RDSon_calc[i]:.4f} mohm")
+        sel.annotation.set_text(f"RDSon={RDSon[i]:.4f} mohm")
 
     plt.xlabel("VDS (V)")
     plt.ylabel("IDS (A)")
