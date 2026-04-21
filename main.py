@@ -12,14 +12,15 @@ data = []
 data_number = 0
 
 def output_char(split_types, nums, data_number):
+    
     if "IDS" in split_types:
-        y_index = split_types.index("IDS")
+        IDS_index = split_types.index("IDS")
     else:
         print("output char not available because no IDS")
         return None
     
     if "VDS" in split_types:
-        x_index = split_types.index("VDS")
+        VDS_index = split_types.index("VDS")
     else:
         print("output char not available because no VDS")
         return None
@@ -34,29 +35,31 @@ def output_char(split_types, nums, data_number):
         rdson = split_types.index("RDSon\n")
     else:
         rdson = None
+    
+    if "VGS" in split_types:
+        VGS_index = split_types.index("VGS")
+    
     IDS = []
     VDS = []
     RDSon = []
-    
+    VGS = []
+
     for i in range(data_number):
-        IDS.append(nums[i][y_index])
-        VDS.append(nums[i][x_index])
+        IDS.append(nums[i][IDS_index])
+        VDS.append(nums[i][VDS_index])
         RDSon.append(nums[i][rdson])
+        VGS.append(nums[i][VGS_index])
 
     for i in range(data_number):
             RDSon[i] = RDSon[i] * 1000
 
-    #print("rdson: ", RDSon)
-    #print("VDS: ", x_axis)
-    #plt.scatter(x_axis, y_axis, c=RDSon, cmap='viridis')
-    #plt.colorbar(label="RDSon mohm")
     plt.plot(VDS, IDS)
 
     cursor = mplcursors.cursor(hover=True)
     @cursor.connect("add")
     def on_add(sel):
         i = int(round(sel.index))
-        sel.annotation.set_text(f"RDSon={RDSon[i]:.4f} mohm")
+        sel.annotation.set_text(f"RDSon={RDSon[i]:.3f} mohm")
 
     plt.xlabel("VDS (V)")
     plt.ylabel("IDS (A)")
@@ -110,9 +113,7 @@ for type1 in range(len(DataName)):
     type1 = data[0].replace(DataName + Removable + " ", "")
 
 
-
 type_number = [y for y in type1.split("," + " ")]
-
 
 nums = [[0 for i in range(len(type_number))] for j in range(data_number)]
 
