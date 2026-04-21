@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 from array import *
 import mplcursors
 
-
-filename = "test2.csv"
+filename = "test3.csv"
 DataName = "DataName"
 DataValue = "DataValue"
 Removable = ","
@@ -24,17 +23,12 @@ def output_char(split_types, nums, data_number):
     else:
         print("output char not available because no VDS")
         return None
-    
-    if "Rdson" in split_types:
-        rdson = split_types.index("Rdson")
-    elif "Rdson\n" in split_types:
-        rdson = split_types.index("Rdson\n")
-    elif "RDSon" in split_types:
-        rdson = split_types.index("RDSon")
-    elif "RDSon\n" in split_types:
-        rdson = split_types.index("RDSon\n")
-    else:
-        rdson = None
+
+    for item in split_types:
+        match item:
+            case "Rdson" | "Rdson\n" | "RDSon" | "RDSon\n":
+                rdson = split_types.index(item)
+                break
     
     if "VGS" in split_types:
         VGS_index = split_types.index("VGS")
@@ -43,15 +37,18 @@ def output_char(split_types, nums, data_number):
     VDS = []
     RDSon = []
     VGS = []
+    resistance = "ohm"
 
     for i in range(data_number):
         IDS.append(nums[i][IDS_index])
         VDS.append(nums[i][VDS_index])
-        RDSon.append(nums[i][rdson])
+        RDSon.append(nums[i][rdson-1])
         VGS.append(nums[i][VGS_index])
 
     for i in range(data_number):
-            RDSon[i] = RDSon[i] * 1000
+            if RDSon[i] < 1:
+                RDSon[i] = RDSon[i] * 1000
+                resistance = "mhom"
 
     plt.plot(VDS, IDS)
 
@@ -59,11 +56,11 @@ def output_char(split_types, nums, data_number):
     @cursor.connect("add")
     def on_add(sel):
         i = int(round(sel.index))
-        sel.annotation.set_text(f"RDSon={RDSon[i]:.3f} mohm")
+        sel.annotation.set_text(f"RDSon={RDSon[i]:.3f}{resistance} VGS={VGS[i]:.0f}V")
 
     plt.xlabel("VDS (V)")
     plt.ylabel("IDS (A)")
-    plt.legend("R mohm")
+    plt.legend(labels='RDSon')
     plt.show()
 
 
