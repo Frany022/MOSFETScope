@@ -1,9 +1,10 @@
 import csv
 import matplotlib.pyplot as plt
 from array import *
+import mplcursors
 
 
-filename = "test1.csv"
+filename = "test2.csv"
 DataName = "DataName"
 DataValue = "DataValue"
 Removable = ","
@@ -27,15 +28,45 @@ def output_char(split_types, nums, data_number):
         rdson = split_types.index("Rdson")
     elif "Rdson\n" in split_types:
         rdson = split_types.index("Rdson\n")
+    elif "RDSon" in split_types:
+        rdson = split_types.index("RDSon")
+    elif "RDSon\n" in split_types:
+        rdson = split_types.index("RDSon\n")
     else:
         rdson = None
-    y_axis = []
-    x_axis = []
+    IDS = []
+    VDS = []
+    RDSon = []
+    RDSon_calc = []
     for i in range(data_number):
-        y_axis.append(nums[i][y_index])
-        x_axis.append(nums[i][x_index])
-    print(y_axis)
-    print(x_axis)
+        IDS.append(nums[i][y_index])
+        VDS.append(nums[i][x_index])
+        RDSon.append(nums[i][rdson])
+
+    for i in range(data_number):
+            RDSon[i] = RDSon[i] * 1000
+            if VDS[i] > 0 or IDS[i] > 0:
+                RDSon_calc.append(((VDS[i]/IDS[i])*1000))
+            else:
+                continue
+
+    #print("rdson: ", RDSon)
+    #print("VDS: ", x_axis)
+    #plt.scatter(x_axis, y_axis, c=RDSon, cmap='viridis')
+    #plt.colorbar(label="RDSon mohm")
+    plt.plot(VDS, IDS)
+
+    cursor = mplcursors.cursor(hover=True)
+    @cursor.connect("add")
+    def on_add(sel):
+        i = int(round(sel.index))
+        sel.annotation.set_text(f"RDSon={RDSon_calc[i]:.4f} mohm")
+
+    plt.xlabel("VDS (V)")
+    plt.ylabel("IDS (A)")
+    plt.legend("R mohm")
+    plt.show()
+
 
 def IGSS(split_types):
     if "IG" in split_types:
