@@ -10,7 +10,7 @@ Removable = ","
 data = []
 data_number = 0
 
-def output_char(split_types):
+def output_char(split_types, nums, data_number):
     if "IDS" in split_types:
         y_index = split_types.index("IDS")
     else:
@@ -29,8 +29,13 @@ def output_char(split_types):
         rdson = split_types.index("Rdson\n")
     else:
         rdson = None
-    
-    return y_index, x_index, rdson
+    y_axis = []
+    x_axis = []
+    for i in range(data_number):
+        y_axis.append(nums[i][y_index])
+        x_axis.append(nums[i][x_index])
+    print(y_axis)
+    print(x_axis)
 
 def IGSS(split_types):
     if "IG" in split_types:
@@ -49,8 +54,16 @@ def IGSS(split_types):
     return y_index, x_index
 
 def quadrant(split_types):
-    y_index = split_types.index()
-    x_index = split_types.index()
+    if "IDS" in split_types:
+        y_index = split_types.index("IDS")
+    else:
+        y_index = None
+
+    if "VDS" in split_types:
+        x_index = split_types.index("VDS")
+    else:
+        x_index = None
+
     return y_index, x_index
 
 
@@ -91,12 +104,4 @@ for i in range(data_number + 1):
 split_types = type1.split(", ")
 
 #print("split types: ", split_types) checking for the exact name
-
-y_index, x_index, Rdson = output_char(split_types)
-
-for i in range(data_number):
-    print("IDS: ", nums[i][y_index])
-    print("VDS: ",nums[i][x_index])
-
-
-
+output_char(split_types, nums, data_number)
