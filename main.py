@@ -63,7 +63,7 @@ def output_char(split_types, nums, data_number):
     plt.show()
 
 
-def IGSS(split_types):
+def IGSS(split_types, nums, data_number):
 
     IG_index = [i for i, x in enumerate(split_types) if x in ("IG", "IGabs")]
     if not IG_index:
@@ -75,7 +75,7 @@ def IGSS(split_types):
         print("no vgs")
         return None
     
-def quadrant(split_types):
+def quadrant(split_types, nums, data_number):
 
     IDS_index = [i for i, x in enumerate(split_types) if x == "IDS"]
     if not IDS_index:
