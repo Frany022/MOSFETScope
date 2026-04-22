@@ -49,15 +49,13 @@ def output_char(split_types, nums, data_number):
         for vgx in VGS_index:
             VGS.append(nums[i][vgx])
 
-
-
     plt.plot(VDS, IDS)
 
     cursor = mplcursors.cursor(hover=True)
     @cursor.connect("add")
     def on_add(sel):
         i = int(round(sel.index))
-        sel.annotation.set_text(f"RDSon={RDSon[i]:.3f}{resistance} VGS={VGS[i]:.0f}V VDS={VDS[i]}V IDS={IDS[i]}A")
+        sel.annotation.set_text(f"RDSon={RDSon[i]:.5f}{resistance} VGS={VGS[i]:.0f}V")
 
     plt.xlabel("VDS (V)")
     plt.ylabel("IDS (A)")
@@ -66,33 +64,28 @@ def output_char(split_types, nums, data_number):
 
 
 def IGSS(split_types):
-    if "IG" in split_types:
-        y_index = split_types.index("IG")
-    elif "IGabs" in split_types:
-        y_index = split_types.index("IGabs")
-    else:
-        print("no IG, not able to plot")
+
+    IG_index = [i for i, x in enumerate(split_types) if x in ("IG", "IGabs")]
+    if not IG_index:
+        print("no ig")
         return None
-
-    if "VGS" in split_types: 
-        x_index = split_types.index("VGS")
-    else: 
-        x_index = None
     
-    return y_index, x_index
-
+    VGS_index = [i for i, x in enumerate(split_types) if x == "VGS"]
+    if not VGS_index:
+        print("no vgs")
+        return None
+    
 def quadrant(split_types):
-    if "IDS" in split_types:
-        y_index = split_types.index("IDS")
-    else:
-        y_index = None
 
-    if "VDS" in split_types:
-        x_index = split_types.index("VDS")
-    else:
-        x_index = None
-
-    return y_index, x_index
+    IDS_index = [i for i, x in enumerate(split_types) if x == "IDS"]
+    if not IDS_index:
+        print("no ids")
+        return None
+    
+    VDS_index = [i for i, x in enumerate(split_types) if x == "VDS"]
+    if not VDS_index:
+        print("no vds")
+        return None
 
 
 with open(filename, 'r') as reader:
