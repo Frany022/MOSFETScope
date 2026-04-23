@@ -48,22 +48,35 @@ def output_char(split_types, nums, data_number):
         for rdx in rdson_index:
             if rdx < len(nums[i]):
                 RDSon.append(nums[i][rdx])
+                print("RDSon: ",RDSon[i])
         for vgx in VGS_index:
             VGS.append(nums[i][vgx])
     
     VDS = np.array(VDS)
     IDS = np.array(IDS)
     VGS = np.array(VGS)
-    VGS_values = np.unique(np.round(VGS, 10))
+    RDSon = np.array(RDSon)
+    VGS_values = np.unique(np.round(VGS, 3))
     colors = cm.viridis(np.linspace(0, 1, len(VGS_values)))
-    print(VGS_values)
+
+    fig, ax = plt.subplots()
+
+    line_to_data = {}
 
     for vgs, color in zip(VGS_values, colors):
         mask = np.isclose(VGS, vgs)
-        if np.any(mask):
-            actual_vgs = np.round(VGS[mask][0], 1)
-            plt.plot(VDS[mask], IDS[mask], color = color, label=f"VGS={actual_vgs}V")
-        print(actual_vgs)
+        idx = np.argsort(VDS[mask])
+
+        x = VDS[mask][idx]
+        y = IDS[mask][idx]
+        r = RDSon[mask][idx]
+
+        line, = ax.plot(x, y, color=color, label=f"VGS={vgs}V")
+
+        line_to_data[line] = (x, y, r, vgs)
+    
+    ax.legend()
+
             
 
     #plt.plot(VDS, IDS)
@@ -73,16 +86,11 @@ def output_char(split_types, nums, data_number):
     @cursor.connect("add")
     def on_add(sel):
         line = sel.artist
-        #x, y = sel.target #if VDS IDS needed
-
-        label = line.get_label()
-
         i = int(sel.index)
 
-        sel.annotation.set_text(
-            f"RDSon={RDSon[i]:.5f}{resistance} "
-            f"{label}"
-        )
+        x, y, r, vgs = line_to_data[line]
+
+        sel.annotation.set_text(f"RDSon={r[i]:.4f}{resistance}" f"VGS={vgs}V")
 
     plt.xlabel("VDS (V)")
     plt.ylabel("IDS (A)")
