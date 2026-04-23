@@ -90,7 +90,7 @@ def output_char(split_types, nums, data_number):
 
         x, y, r, vgs = line_to_data[line]
 
-        sel.annotation.set_text(f"RDSon={r[i]:.4f}{resistance}" f"VGS={vgs}V")
+        sel.annotation.set_text(f"RDSon={r[i]:.7f}{resistance} " f"VGS={vgs}V")
 
     plt.xlabel("VDS (V)")
     plt.ylabel("IDS (A)")
