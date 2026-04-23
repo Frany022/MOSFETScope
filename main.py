@@ -78,9 +78,6 @@ def output_char(split_types, nums, data_number):
         label = line.get_label()
 
         i = int(sel.index)
-        
-        rds = getattr(line, "RDSon", None)
-        vgs = getattr(line, "VGS", None)
 
         sel.annotation.set_text(
             f"RDSon={RDSon[i]:.5f}{resistance} "
