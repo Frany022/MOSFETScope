@@ -1,7 +1,9 @@
 import csv
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 from array import *
 import mplcursors
+import numpy as np
 
 filename = "test4.csv"
 DataName = "DataName"
@@ -48,18 +50,46 @@ def output_char(split_types, nums, data_number):
                 RDSon.append(nums[i][rdx])
         for vgx in VGS_index:
             VGS.append(nums[i][vgx])
+    
+    VDS = np.array(VDS)
+    IDS = np.array(IDS)
+    VGS = np.array(VGS)
+    VGS_values = np.unique(np.round(VGS, 10))
+    colors = cm.viridis(np.linspace(0, 1, len(VGS_values)))
+    print(VGS_values)
 
-    plt.plot(VDS, IDS)
+    for vgs, color in zip(VGS_values, colors):
+        mask = np.isclose(VGS, vgs)
+        if np.any(mask):
+            actual_vgs = np.round(VGS[mask][0], 1)
+            plt.plot(VDS[mask], IDS[mask], color = color, label=f"VGS={actual_vgs}V")
+        print(actual_vgs)
+            
+
+    #plt.plot(VDS, IDS)
 
     cursor = mplcursors.cursor(hover=True)
+
     @cursor.connect("add")
     def on_add(sel):
-        i = int(round(sel.index))
-        sel.annotation.set_text(f"RDSon={RDSon[i]:.5f}{resistance} VGS={VGS[i]:.0f}V")
+        line = sel.artist
+        #x, y = sel.target #if VDS IDS needed
+
+        label = line.get_label()
+
+        i = int(sel.index)
+        
+        rds = getattr(line, "RDSon", None)
+        vgs = getattr(line, "VGS", None)
+
+        sel.annotation.set_text(
+            f"RDSon={RDSon[i]:.5f}{resistance} "
+            f"{label}"
+        )
 
     plt.xlabel("VDS (V)")
     plt.ylabel("IDS (A)")
-    plt.legend(labels='RDSon')
+    plt.legend()
     plt.show()
 
 
