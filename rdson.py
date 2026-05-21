@@ -20,11 +20,14 @@ def read_csv():
             else:
                 pass
     reader.close
-    parser(data, from_file)
-    return data, count
+    type = parser(data, from_file)
+    return data, count, type
 
 def parser(data, from_file):
-    pass
+    for i in range(len(from_file["DataName"])):
+        type = data[0].replace(from_file["DataName"] + "," + " ", "")
+        type = type.split(", ")
+    return type
 
 def char():
     pass
