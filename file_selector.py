@@ -13,20 +13,11 @@ def select_files():
     return filepath
 
 def which_parser(names, DATA_NAME):
-    IGS = {
-        "IG": "ig",
-        "IGabs" : "igabs",
-        "VGS" : "vgs"
-    }
-    Quadrant = {
-        "IDS" : "ids",
-        "VDS" : "vds"
-    }
 
     for i in range(len(names)):
         names[i] = names[i].replace(DATA_NAME + ", ", "")
 
-    #not the best solution, but works for now
+    #not the best solution, but works for now 
     for i in enumerate(names):
         if i == "Rdson" or "Rdson\n" or "RDSon" or "RDSon\n":
             return "RDSon"
