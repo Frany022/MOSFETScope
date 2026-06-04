@@ -13,6 +13,7 @@ def main():
     names = []
     count = 0
     file_name = file_selector.select_files()
+
     if(file_name):
         print("File found")
     else:
@@ -33,16 +34,17 @@ def main():
 
     types, nums = file_selector.parser(data, DATA_VALUE, DATA_NAME, count)
     which_one = file_selector.which_char(names, DATA_NAME)
-
     if which_one == "RDSon":
         print("RDSon found, plotting..")
         rdson.char(count, types, nums)
     elif which_one == "IG":
-        print("ig work in progress")
+        print("IG found, plotting..")
+        igs.char(count, types, nums)
     elif which_one == "Quadrant":
-        print("3rd quadrant work in progress")
+        print("3rd Quadrant found, plotting..")
+        quadrant.char(count, types, nums)
     else:
-        print("not possible to parse")
+        print("No characterization parameter found, exiting..")
 
 
 main()
