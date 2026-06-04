@@ -9,25 +9,6 @@ for_rdson = {
     "VGS" : "VGS"
 }
 
-def parser(data, DATA_VALUE, DATA_NAME, count):
-    for i in range(len(DATA_NAME)):
-        types = data[0].replace(DATA_NAME + "," + " ", "")
-        types = types.split(", ")
-    nums = [[0 for i in range(len(types))] for j in range(count)]
-    for i in range(count + 1):
-        if i == 0:
-            continue
-        values = data[i].replace(DATA_VALUE + "," + " ", "")
-        values = values.split(", ")
-        nums[i - 1] = [float(x) for x in values]
-
-        max_len = max(len(row) for row in nums)
-        for row in nums:
-            while len(row) < max_len:
-                row.append(0)
-
-    char(count, types, nums)
-
 def char(count, types, nums):
 
     IDS_index = [i for i, x in enumerate(types) if x == for_rdson["IDS"]]
