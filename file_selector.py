@@ -42,7 +42,7 @@ def parser(data, DATA_VALUE: str, DATA_NAME: str, count: int):
 
     return types, nums
 
-def which_char(names, DATA_NAME):
+def which_char(names: str, DATA_NAME: str):
     names = [n.replace(DATA_NAME + ", ", "").replace("\\n", "").strip().lower() for n in names]
     names = ", ".join(names).split(", ")
     names = [n.strip().lower() for n in names]
