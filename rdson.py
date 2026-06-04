@@ -9,7 +9,7 @@ for_rdson = {
     "VGS" : "VGS"
 }
 
-def char(count, types, nums):
+def char(count: int, types: str, nums: float):
 
     IDS_index = [i for i, x in enumerate(types) if x == for_rdson["IDS"]]
     VDS_index = [i for i, x in enumerate(types) if x == for_rdson["VDS"]]
