@@ -31,11 +31,12 @@ def main():
                 pass
     reader.close
 
-    which_one = file_selector.which_parser(names, DATA_NAME)
-    
+    types, nums = file_selector.parser(data, DATA_VALUE, DATA_NAME, count)
+    which_one = file_selector.which_char(names, DATA_NAME)
+
     if which_one == "RDSon":
-        print("parsing and plotting RDSon")
-        rdson.parser(data, DATA_VALUE, DATA_NAME, count)
+        print("RDSon found, plotting..")
+        rdson.char(count, types, nums)
     elif which_one == "IG":
         print("ig work in progress")
     elif which_one == "Quadrant":
